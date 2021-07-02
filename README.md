@@ -1,2 +1,2 @@
 # YaMail
-### aMail
+### YaMail
