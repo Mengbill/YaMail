@@ -1,0 +1,16 @@
+name: YaMail
+version: ${project.version}
+main: com.yallage.yamail.YaMail
+authors: [ Mengbill ]
+description: Minecraft YaMail Plugin for Yallage server.
+api-version: 1.16
+depend: [ Vault ]
+commands:
+  yamail:
+    aliases:
+      - yam
+permissions:
+  yamail.reload:
+    default: op
+  yamail.gui:
+    default: op
