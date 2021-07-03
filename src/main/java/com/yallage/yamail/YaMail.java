@@ -4,7 +4,12 @@ import com.yallage.yamail.command.YaCommandExcutor;
 import com.yallage.yamail.listener.InventoryClickEvent;
 import com.yallage.yamail.listener.PlayerJoinEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.awt.HKSCS;
+
+import java.io.File;
 
 public final class YaMail extends JavaPlugin {
 
@@ -15,12 +20,16 @@ public final class YaMail extends JavaPlugin {
         // Plugin startup logic
         saveDefaultConfig();
         reloadConfig();
+        saveResource("playerdata.yml",false);
         Bukkit.getLogger().info(getConfig().getString("prefix")+"> 正在加载YaMail插件......"+"版本"+getConfig().get("version"));
         Bukkit.getPluginCommand("yamail").setExecutor(new YaCommandExcutor());
         Bukkit.getPluginManager().registerEvents(new InventoryClickEvent(),this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(),this);
         Bukkit.getLogger().info(getConfig().getString("prefix")+"> 加载YaMail插件成功!");
     }
+
+    public File PlayerDataFile = new File(instance.getDataFolder(),"playerdata.yml");
+    public FileConfiguration PlayerData = YamlConfiguration.loadConfiguration(PlayerDataFile);
 
     @Override
     public void onDisable() {
