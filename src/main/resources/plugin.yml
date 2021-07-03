@@ -5,12 +5,19 @@ authors: [ Mengbill ]
 description: Minecraft YaMail Plugin for Yallage server.
 api-version: 1.16
 depend: [ Vault ]
+softdepend: [ Playerpoints ]
 commands:
   yamail:
     aliases:
       - yam
 permissions:
+  yamail.help:
+    default: true
   yamail.reload:
     default: op
   yamail.gui:
+    default: true
+  yamail.send:
+    default: true
+  yamail.sendall:
     default: op
