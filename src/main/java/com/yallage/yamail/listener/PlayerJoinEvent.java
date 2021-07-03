@@ -1,6 +1,7 @@
 package com.yallage.yamail.listener;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import static com.yallage.yamail.YaMail.instance;
 
 public class PlayerJoinEvent implements Listener {
+    @EventHandler
     public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent e){
         Player player = e.getPlayer();
         if(!instance.PlayerData.contains(String.valueOf(player.getUniqueId()))){
