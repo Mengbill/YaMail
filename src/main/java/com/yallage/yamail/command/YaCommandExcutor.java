@@ -73,6 +73,9 @@ public class YaCommandExcutor implements CommandExecutor {
                         ItemStack item_info1 = new ItemStack(Material.CLOCK);
                         ItemMeta item_info1_meta = item_info1.getItemMeta();
                         item_info1_meta.setDisplayName("§8§l收件人: §a§l"+target.getName());
+                        List<String> info1_lores = item_info1_meta.getLore();
+                        info1_lores.add(0,target.getName());
+                        item_info1_meta.setLore(info1_lores);
                         item_info1.setItemMeta(item_info1_meta);
                         ItemStack item_info2 = new ItemStack(Material.COMPASS);
                         ItemMeta item_info2_meta = item_info2.getItemMeta();
@@ -100,6 +103,7 @@ public class YaCommandExcutor implements CommandExecutor {
                         List<String> button3_lores = new ArrayList();
                         button3_lores.add("● §8§l左键增加100犽币");
                         button3_lores.add("● §8§l右键减少100犽币");
+                        button3_lores.add("● §e§l当前邮件所含犽币: 0");
                         item_buitton3_meta.setLore(button3_lores);
                         item_button3.setItemMeta(item_buitton3_meta);
                         ItemMeta item_buitton4_meta = item_button4.getItemMeta();
@@ -107,6 +111,7 @@ public class YaCommandExcutor implements CommandExecutor {
                         List<String> button4_lores = new ArrayList();
                         button4_lores.add("● §8§l左键增加100点券");
                         button4_lores.add("● §8§l右键减少100点券");
+                        button4_lores.add("● §e§l当前邮件所含点券: 0");
                         item_buitton4_meta.setLore(button4_lores);
                         item_button4.setItemMeta(item_buitton4_meta);
                         inventory.setItem(4,item_info1);
@@ -120,7 +125,7 @@ public class YaCommandExcutor implements CommandExecutor {
                             target.sendMessage(instance.getConfig().getString("prefix")+"> §4§l您有新邮件请使用/yamail gui查看");
                             target.sendTitle("§4§l您有新邮件请注意查收",instance.getConfig().getString("prefix"),10,70,20);
                         }
-                        instance.PlayerData.set(target.getUniqueId() +".received",true);
+                        instance.PlayerData.set(target.getUniqueId() +".amount",instance.PlayerData.getInt(target.getUniqueId() +".amount")+1);
                         try {
                             instance.PlayerData.save(instance.PlayerDataFile);
                         } catch (IOException ioException) {

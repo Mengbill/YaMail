@@ -4,8 +4,7 @@ main: com.yallage.yamail.YaMail
 authors: [ Mengbill ]
 description: Minecraft YaMail Plugin for Yallage server.
 api-version: 1.16
-depend: [ Vault ]
-softdepend: [ Playerpoints ]
+depend: [ Vault,Playerpoints]
 commands:
   yamail:
     aliases:
