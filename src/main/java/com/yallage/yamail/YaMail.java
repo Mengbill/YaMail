@@ -20,16 +20,13 @@ public final class YaMail extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
         saveResource("playerdata.yml",false);
-        Bukkit.getLogger().info(getConfig().getString("prefix")+"> 正在加载YaMail插件......"+"版本"+getConfig().get("version"));
+        Bukkit.getLogger().info(getConfig().getString("prefix")+"> 正在加载YaMail插件"+"版本"+getConfig().get("version"));
         Bukkit.getPluginCommand("yamail").setExecutor(new YaCommandExcutor());
         Bukkit.getPluginManager().registerEvents(new InventoryClickEvent(),this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(),this);
+        instance = this;
         Bukkit.getLogger().info(getConfig().getString("prefix")+"> 加载YaMail插件成功!");
     }
-
-    public File PlayerDataFile = new File(instance.getDataFolder(),"playerdata.yml");
-    public FileConfiguration PlayerData = YamlConfiguration.loadConfiguration(PlayerDataFile);
-
     @Override
     public void onDisable() {
         // Plugin shutdown logic

@@ -10,7 +10,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +25,9 @@ public class YaCommandExcutor implements CommandExecutor {
                 sender.sendMessage("§f===========================§9<§4§l YaMail 系 统 §9>§f===========================");
                 sender.sendMessage("§a§l/yamail help §f§l- §7§l查看指令帮助");
                 sender.sendMessage("§a§l/yamail gui §f§l- §7§l打开YaMail收件箱");
-                sender.sendMessage("§a§l/yamail send §f§l- §7§l发送YaMail邮件");
-                sender.sendMessage("§a§l/yamail sendall §f§l- §7§发送全体YaMail邮件");
-                sender.sendMessage("§a§l/yamai; reload §f§l- §7§l重载插件配置");
+                sender.sendMessage("§a§l/yamail send <玩家名> §f§l- §7§l发送YaMail邮件");
+                sender.sendMessage("§a§l/yamail sendall §f§l- §7§l发送全体YaMail邮件");
+                sender.sendMessage("§a§l/yamail reload §f§l- §7§l重载插件配置");
                 return true;
             }
             if (args[0].equalsIgnoreCase("reload")) {
@@ -36,7 +35,7 @@ public class YaCommandExcutor implements CommandExecutor {
                     sender.sendMessage(instance.getConfig().getString("prefix") + "> §4§l你没有执行此命令的权限");
                 } else {
                     instance.reloadConfig();
-                    sender.sendMessage(instance.getConfig().getString("prefix") + "> §4§l插件配置文件已重载");
+                    sender.sendMessage(instance.getConfig().getString("prefix") + "> §a§l插件配置文件已重载");
                 }
                 return true;
             }
@@ -49,6 +48,7 @@ public class YaCommandExcutor implements CommandExecutor {
                 }else{
                     // 收件箱(容器)
                 }
+                return true;
             }
             if(args[0].equalsIgnoreCase("send")){
                 if(!(sender instanceof Player)){
@@ -64,7 +64,7 @@ public class YaCommandExcutor implements CommandExecutor {
                         Inventory inventory = Bukkit.createInventory(null,54,"发送邮件");
                         ItemStack item_bk = new ItemStack(Material.PINK_STAINED_GLASS_PANE);
                         ItemMeta item_bk_meta = item_bk.getItemMeta();
-                        item_bk_meta.setDisplayName(null);
+                        item_bk_meta.setDisplayName("");
                         item_bk.setItemMeta(item_bk_meta);
                         int[] bk = new int[] {0,1,2,3,5,6,7,8,9,17,18,26,27,35,36,44,46,48,50,52};
                         for (int i : bk) {
@@ -73,20 +73,20 @@ public class YaCommandExcutor implements CommandExecutor {
                         ItemStack item_info1 = new ItemStack(Material.CLOCK);
                         ItemMeta item_info1_meta = item_info1.getItemMeta();
                         item_info1_meta.setDisplayName("§8§l收件人: §a§l"+target.getName());
-                        List<String> info1_lores = item_info1_meta.getLore();
-                        info1_lores.add(0,target.getName());
+                        List<String> info1_lores = new ArrayList<>();
+                        info1_lores.add(target.getName());
                         item_info1_meta.setLore(info1_lores);
                         item_info1.setItemMeta(item_info1_meta);
                         ItemStack item_info2 = new ItemStack(Material.COMPASS);
                         ItemMeta item_info2_meta = item_info2.getItemMeta();
                         item_info2_meta.setDisplayName("§8§l发件人: §a§l"+player.getName());
-                        List<String> lores = new ArrayList<String>();
-                        lores.add("● §8§l请将发送的物品放入上方空格处");
-                        lores.add("● §8§l如需发送犽币请点击左侧向日葵");
-                        lores.add("● §8§l如需发送点券请点击右侧下界之星");
-                        lores.add("● §8§l确认发送请点击绿色混凝土");
-                        lores.add("● §8§l取消发送请点击红色混凝土");
-                        item_info2_meta.setLore(lores);
+                        List<String> info2_lores = new ArrayList<String>();
+                        info2_lores.add("● §8§l请将发送的物品放入上方空格处");
+                        info2_lores.add("● §8§l如需发送犽币请点击左侧向日葵");
+                        info2_lores.add("● §8§l如需发送点券请点击右侧下界之星");
+                        info2_lores.add("● §8§l确认发送请点击绿色混凝土");
+                        info2_lores.add("● §8§l取消发送请点击红色混凝土");
+                        item_info2_meta.setLore(info2_lores);
                         item_info2.setItemMeta(item_info2_meta);
                         ItemStack item_button1 = new ItemStack(Material.GREEN_CONCRETE);
                         ItemStack item_button2 = new ItemStack(Material.RED_CONCRETE);
@@ -121,21 +121,14 @@ public class YaCommandExcutor implements CommandExecutor {
                         inventory.setItem(45,item_button3);
                         inventory.setItem(53,item_button4);
                         player.openInventory(inventory);
-                        if(target != null){
-                            target.sendMessage(instance.getConfig().getString("prefix")+"> §4§l您有新邮件请使用/yamail gui查看");
-                            target.sendTitle("§4§l您有新邮件请注意查收",instance.getConfig().getString("prefix"),10,70,20);
-                        }
-                        instance.PlayerData.set(target.getUniqueId() +".amount",instance.PlayerData.getInt(target.getUniqueId() +".amount")+1);
-                        try {
-                            instance.PlayerData.save(instance.PlayerDataFile);
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
                     }else{
                         sender.sendMessage(instance.getConfig().getString("prefix")+"> §4§l你输入的指令有误 /yamail help查看指令帮助");
                     }
                 }
+                return true;
             }
+            sender.sendMessage(instance.getConfig().getString("prefix")+"> §4§l你输入的指令有误 /yamail help查看指令帮助");
+            return true;
         }
         return false;
     }
